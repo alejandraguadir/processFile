@@ -13,6 +13,9 @@ Feature: sample karate test script
     # Imaginemos que esta clase contiene métodos para tomar un archivo, renombrarlo y copiarlo en otra ruta
     * def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
 
+
+    #
+
   @regression
   Scenario Outline: Dado que se carga un archivo de recaudo con datos correctamente con usuarios que recibirán un link de pago, al procesarse el archivo se persisten en BD los recaudo creados exitosamente
     # --------------------------------------------------------------- #
