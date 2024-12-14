@@ -1,0 +1,64 @@
+# ===============================
+# Archivos específicos de IntelliJ IDEA
+# ===============================
+.idea/                 # Configuración y metadatos locales de IntelliJ
+*.iml                  # Archivos de módulo de IntelliJ
+*.iws                  # Configuración de espacio de trabajo de IntelliJ
+*.editorconfig         # Configuración de editor (si no es compartida globalmente)
+
+# ===============================
+# Archivos generados por Maven
+# ===============================
+target/                # Directorio de salida donde Maven coloca los archivos compilados (JARs, WARs, etc.)
+log/                   # Archivos de log generados por Maven
+.mvn/                  # Configuración local de Maven Wrapper
+/.maven/               # Caché temporal local de Maven (si existe alguna ruta específica)
+
+# ===============================
+# Repositorio local de Maven
+# ===============================
+.m2/                   # Repositorio de dependencias descargadas por Maven en local (~/.m2/repository)
+
+# ===============================
+# Archivos temporales y de compilación de Java
+# ===============================
+build/                 # Directorio de salida de compilaciones manuales
+out/                   # Directorio de salida por defecto (si lo usas manualmente)
+*.class                # Archivos de clase compilados
+*.jar                  # Archivos JAR generados
+*.war                  # Archivos WAR generados
+*.ear                  # Archivos EAR generados
+*.java~                # Archivos de respaldo temporales de código fuente Java
+
+# ===============================
+# Archivos de log
+# ===============================
+*.log                  # Archivos de log generados por aplicaciones
+hs_err_pid*            # Logs de errores críticos de la JVM
+
+# ===============================
+# Configuración de análisis y caché
+# ===============================
+.scannerwork/          # Archivos generados por herramientas como SonarQube
+.scannerwork/*.txt
+.scannerwork/.sonar_lock
+
+# ===============================
+# Maven Wrapper
+# ===============================
+maven-wrapper.jar      # Wrapper de Maven, ¡no ignores este archivo!
+!maven-wrapper.jar     # Fuerza a incluir este archivo en el repositorio
+
+# ===============================
+# Otros archivos temporales
+# ===============================
+*.tmp                  # Archivos temporales comunes
+*.swp                  # Archivos temporales de editores (vim, etc.)
+*.bak                  # Archivos de respaldo
+~$*                    # Archivos temporales creados por algunos editores
+
+# ===============================
+# Opcional: Sistema operativo y archivos comunes
+# ===============================
+Thumbs.db              # Windows
+
