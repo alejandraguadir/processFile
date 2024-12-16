@@ -32,6 +32,11 @@
             <artifactId>cucumber-reporting</artifactId>
             <version>5.7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.780</version>
+        </dependency>
 
     </dependencies>
 

@@ -13,36 +13,33 @@ Feature: sample karate test script
     # Imaginemos que esta clase contiene métodos para tomar un archivo, renombrarlo y copiarlo en otra ruta
     * def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
 
-  @regression
-  Scenario Outline: Dado que se carga un archivo de recaudo con datos correctamente con usuarios que recibirán un link de pago, al procesarse el archivo se persisten en BD los recaudo creados exitosamente
-    # --------------------------------------------------------------- #
+    # Variables globales
+
     * def bucketName = 'test-automation-qa'
     * def folderRecaudoFiles = 'files-to-cash-in'
-    * def noveltyUuid = java.util.UUID.randomUUID().toString()
-    * print "El uuid de la novedad es: " + noveltyUuid
-
     * def fileExtension = ".csv"
+    * def noveltyUuid = java.util.UUID.randomUUID().toString()
+    * def fullFileName = noveltyUuid + fileExtension
+    * def urlBase = 'https://test-container-qa.prueba.co/v1/entity/novelties/'
 
-    * def fullFileName = noveltyUuid+fileExtension
 
-    # --------------------------------------------------------------- #
+  @regression
+  Scenario Outline: Dado que se carga un archivo de recaudo con datos correctamente con usuarios que recibirán un link de pago, al procesarse el archivo se persisten en BD los recaudo creados exitosamente
+    #Generación de un UUID único para cada prueba
+    * karate.log('El uuid de la novedad es: ', noveltyUuid)
+
+    # Renombrar archivo
     * def renameFile = FileUtils.renameFile(currentFilePath, currentFileName, newPathNewFile, noveltyUuid, fileExtension)
-    * waitTime(3)
-    * print "El resultado de renombrar el archivo es: " + renameFile
     * match renameFile == true
+    * karate.log('Renombrado correctamente: ', renameFile)
 
-    # --------------------------------------------------------------- #
-    * print "El bucket es: " + bucketName
-    * print "El folder  es: " + folderRecaudoFiles
+    #  Subir archivo a S3
     * S3ManagerInstance.uploadFileToBucket(bucketName, folderRecaudoFiles, fullFileName, newPathNewFile)
-    * waitTime(3)
-
-    # --------------------------------------------------------------- #
     * def fileExist = S3ManagerInstance.doesFileExist(bucketName, folderRecaudoFiles, fullFileName)
-    * print "La existencia del archivo es: " + fileExist
     * match fileExist == true
+    * karate.log('Archivo subido correctamente a S3: ', fileExist)
 
-    # --------------------------------------------------------------- #
+    # Enviar mensaje a SQS
     * def variableMapToReplaceInQueueMessageBody =
     """
     {
@@ -53,10 +50,11 @@ Feature: sample karate test script
     """
     * SQSManager.sendMessageToQueue('<jsonFileSqsEvents>', 'testing-recaudo-qa.fifo', variableMapToReplaceInQueueMessageBody, '<pathJsonFileSqsEvents>')
     * waitTime(8)
+    #Revisar esperas
 
     # --------------------------------------------------------------- #
-    # Uso de API REST para obtener información de las novedades
-    Given url 'https://test-container-qa.prueba.co/v1/entity/novelties/'+noveltyUuid+''
+    # API REST para obtener información de las novedades
+    Given url urlBase + noveltyUuid + ''
     And header X-WorkplaceBankCode = '<clientCode>'
     And retry until responseStatus == 200 && response.cashInNovelty.status == status && response.cashInNoveltyDetailsCounters.total == total
     When method get
@@ -65,7 +63,9 @@ Feature: sample karate test script
     * def status = response.cashInNovelty.status
     * def totalNovelties = response.cashInNoveltyDetailsCounters.total
     * def validationError = response.cashInNoveltyDetailsCounters.validationError
+    * karate.log('Datos de la novedad: ', totalAmount, status, totalNovelties, validationError)
     * def created = response.cashInNoveltyDetailsCounters.created#    * match totalAmount == '<>'
+    #Revisar opciones de mejora
     * match getNovelty.status == '<noveltyStatus>'
     * match getNovelty.totalNovelties == '<registerTotal>'
     * match getNovelty.validationError == <validationErrorNumber>
@@ -77,13 +77,14 @@ Feature: sample karate test script
     * def dataWithExpectedInformation = karate.read("classpath:acceptance/test/" + '<jsonDataWithExpectedInformation>')
     * def pageInt = parseInt('<page>')
     * def sizeInt = parseInt('<size>')
-    Given url 'https://test-container-qa.prueba.co/v1/entity/novelties/'+noveltyUuid+''+'/novelty-details'
+    Given url  urlBase + noveltyUuid+''+'/novelty-details'
     And header X-WorkplaceBankCode = '<clientCode>'
     And params {page: '0', size: '100'}
     And retry until responseStatus == 200 && response.content != []
     When method get
     Then status 200
     * def content = response.content
+    * karate.log('Detalles de la novedad: ', content)
     * match getNoveltyDetails.content contains deep dataWithExpectedInformation
 
     Examples:
@@ -93,14 +94,8 @@ Feature: sample karate test script
   @regression
   Scenario Outline: Dado que se carga un archivo de recaudo con datos que contienen caracteres especiales, al procesarse el archivo se verificará la información y se persistirán en BD con el detalle del error
     # --------------------------------------------------------------- #
-    * def bucketName = 'test-automation-qa'
-    * def folderRecaudoFiles = 'files-to-cash-in'
-    * def noveltyUuid = java.util.UUID.randomUUID().toString()
-    * print "El uuid de la novedad es: " + noveltyUuid
-
-    * def fileExtension = ".csv"
-
-    * def fullFileName = noveltyUuid+fileExtension
+    #Generación de un UUID único para cada prueba
+    * karate.log('El uuid de la novedad es: ', noveltyUuid)
 
     # --------------------------------------------------------------- #
     * def renameFile = FileUtils.renameFile(currentFilePath, currentFileName, newPathNewFile, noveltyUuid, fileExtension)
