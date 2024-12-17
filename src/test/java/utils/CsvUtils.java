@@ -1,25 +1,23 @@
 package utils;
 
-import org.apache.commons.logging.Log;
+
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.logging.Logger;
+
 
 public class CsvUtils {
-    private static final String CSV_FILE_PATH = "D:\\PruebaTecnica\\src\\test\\java\\UpdateDate\\recaudo.csv";
-
-    public static void csvUpdate(String filePath, int rowIndex, String newDueDate) {
+   private static final String CSV_FILE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator +
+           "test" + File.separator + "java" + File.separator +
+           "UpdateDate" + File.separator + "recaudo.csv";
+    public static String csvUpdate(String filePath, int rowIndex, String newDueDate) {
         List<String[]> csvData = readCsv(CSV_FILE_PATH);
         updateDueDate(csvData, rowIndex, newDueDate);
         writeCsv(CSV_FILE_PATH, csvData);
-
-    }
-
-    public static void assertUpdate(String filePath, int rowIndex) {
-        getDueDate(CSV_FILE_PATH, rowIndex);
+        String dueDate = getDueDate(CSV_FILE_PATH, rowIndex);
+        return dueDate;
     }
 
 
@@ -41,16 +39,18 @@ public class CsvUtils {
 
 
     private static void updateDueDate(List<String[]> csvData, int rowIndex, String newDueDate) {
-        // Verificar que el índice esté dentro de los límites
+
         if (rowIndex <= 0 || rowIndex >= csvData.size()) {
             System.out.println("El índice proporcionado no se encuentra en archivo CSV.");
             return;
         }
 
         String[] rowData = csvData.get(rowIndex);
-        rowData[9] = newDueDate;
-        System.out.println("Fila actualizada: " + Arrays.toString(rowData));
+        String sanitizedDate = newDueDate.replace("'", "");
+        rowData[9] = sanitizedDate;
+
     }
+
 
     // Método para escribir en archivo CSV
     private static void writeCsv(String filePath, List<String[]> csvData) {
@@ -67,24 +67,15 @@ public class CsvUtils {
     }
 
     public static String getDueDate(String filePath, int row) {
-        List<String[]> csvData = readCsv(filePath);  // Leer el archivo CSV
-        if (row >= 1 && row < csvData.size()) {  // Asegurarse de que la fila es válida
-            String[] rowData = csvData.get(row);  // Obtener los datos de la fila
-            return  rowData[9];  // Retornar la fecha de vencimiento (columna 9)
+        List<String[]> csvData = readCsv(filePath);
+        if (row >= 1 && row < csvData.size()) {
+            String[] rowData = csvData.get(row);
+            return  rowData[9];
         } else {
             System.out.println("Fila fuera de rango.");
-            return null;  // Si la fila no es válida
+            return null;
         }
     }
 
-    // Método principal de prueba
-    public static void main(String[] args) {
 
-        String filePath = CSV_FILE_PATH;
-        int rowToUpdate = 2;
-        String newDueDate = "2024-12-31";
-
-
-        csvUpdate(filePath, rowToUpdate, newDueDate);
-    }
 }
