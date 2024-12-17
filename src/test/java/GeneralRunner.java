@@ -1,8 +1,5 @@
-package acceptance.test;
-
 import com.intuit.karate.Results;
 import com.intuit.karate.Runner;
-import com.intuit.karate.junit5.Karate;
 import net.masterthought.cucumber.ReportBuilder;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
@@ -20,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GeneralRunner {
     @Test
     void testParallel() {
-        Results results = Runner.path("classpath:acceptance/test")
+        Results results = Runner.path("classpath:UpdateDate")
                 .outputCucumberJson(true)
+                .tags("@Csv")
                 .parallel(1);
         generateReport(results.getReportDir());
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
