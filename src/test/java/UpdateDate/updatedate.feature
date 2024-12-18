@@ -14,7 +14,7 @@ Feature: update date csv
 
     Examples:
       | row | newDueDate   |
-      | 3   | '2024-10-20' |
+      | 3   | '2024-09-20' |
 
   Scenario: probando
       * def testear = "hola mundo"
