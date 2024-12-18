@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GeneralRunner {
     @Test
     void testParallel() {
-        Results results = Runner.path("classpath:UpdateDate")
+        Results results = Runner.path("classpath:UpdateDate/updatedate.feature")
                 .outputCucumberJson(true)
                 .tags("@Csv")
                 .parallel(1);
