@@ -1,22 +1,24 @@
 package utils;
 
-
-
 import java.io.*;
 import java.util.ArrayList;
-
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class CsvUtils {
+    private static final Logger logger = Logger.getLogger(CsvUtils.class.getName());
    private static final String CSV_FILE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator +
            "test" + File.separator + "java" + File.separator +
-           "UpdateDate" + File.separator + "recaudo.csv";
-    public static String csvUpdate(String filePath, int rowIndex, String newDueDate) {
-        List<String[]> csvData = readCsv(CSV_FILE_PATH);
+           "UpdateDate" + File.separator ;
+
+    public static String csvUpdate(String csvUpdate, int rowIndex, String newDueDate) {
+
+        String phatCsv = CSV_FILE_PATH + csvUpdate;
+        List<String[]> csvData = readCsv(phatCsv);
         updateDueDate(csvData, rowIndex, newDueDate);
-        writeCsv(CSV_FILE_PATH, csvData);
-        String dueDate = getDueDate(CSV_FILE_PATH, rowIndex);
+        writeCsv(phatCsv, csvData);
+        String dueDate = getDueDate(phatCsv, rowIndex);
         return dueDate;
     }
 
@@ -31,7 +33,7 @@ public class CsvUtils {
                 csvData.add(columns);
             }
         } catch (IOException e) {
-            System.out.println("Error al leer el archivo CSV.");
+            logger.warning("Error al leer el archivo CSV");
             e.printStackTrace();
         }
         return csvData;
@@ -41,7 +43,7 @@ public class CsvUtils {
     private static void updateDueDate(List<String[]> csvData, int rowIndex, String newDueDate) {
 
         if (rowIndex <= 0 || rowIndex >= csvData.size()) {
-            System.out.println("El índice proporcionado no se encuentra en archivo CSV.");
+            logger.warning("El índice proporcionado no se encuentra en archivo CSV.");
             return;
         }
 
@@ -59,9 +61,10 @@ public class CsvUtils {
                 bw.write(String.join(";", row));
                 bw.newLine();
             }
-            System.out.println("CSV actualizado correctamente.");
+            logger.info("CSV actualizado correctamente.");
+
         } catch (IOException e) {
-            System.out.println("Error al escribir en el archivo CSV.");
+            logger.warning("Error al escribir en el archivo CSV.");
             e.printStackTrace();
         }
     }
@@ -72,7 +75,7 @@ public class CsvUtils {
             String[] rowData = csvData.get(row);
             return  rowData[9];
         } else {
-            System.out.println("Fila fuera de rango.");
+            logger.warning("Fila fuera de rango.");
             return null;
         }
     }

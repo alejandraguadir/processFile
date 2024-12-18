@@ -1,11 +1,12 @@
 Feature: update date csv
 
   Background:
-   * def CsvUtils = Java.type('utils.CsvUtils')
+    * def CsvUtils = Java.type('utils.CsvUtils')
+    * def csvUpdate = "recaudoTemplateCaracteresEspeciales.csv"
 
   @Csv
   Scenario Outline: Update the due date for a specific row in the CSV file
-    Given def csvUpdate = "D:\\PruebaTecnica\\src\\test\\resources\\UpdateData\\recaudo.csv"
+    Given  print csvUpdate
     * def row = <row>
     * def newDueDate = <newDueDate>
     * def resultUpdate = CsvUtils.csvUpdate(csvUpdate, row, newDueDate)
@@ -14,11 +15,10 @@ Feature: update date csv
 
     Examples:
       | row | newDueDate   |
-      | 3   | '2024-09-20' |
+      | 1   | '2024-09-20' |
 
-  Scenario: probando
-      * def testear = "hola mundo"
-      * print testear
+
+
 
 
 
