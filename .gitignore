@@ -1,7 +1,7 @@
 # ===============================
 # Archivos específicos de IntelliJ IDEA
 # ===============================
-*.idea/                 # Configuración y metadatos locales de IntelliJ
+*.idea/             # Configuración y metadatos locales de IntelliJ
 *.iml                  # Archivos de módulo de IntelliJ
 *.iws                  # Configuración de espacio de trabajo de IntelliJ
 *.editorconfig         # Configuración de editor (si no es compartida globalmente)
@@ -56,6 +56,7 @@ maven-wrapper.jar      # Wrapper de Maven, ¡no ignores este archivo!
 *.swp                  # Archivos temporales de editores (vim, etc.)
 *.bak                  # Archivos de respaldo
 ~$*                    # Archivos temporales creados por algunos editores
+
 
 # ===============================
 # Opcional: Sistema operativo y archivos comunes

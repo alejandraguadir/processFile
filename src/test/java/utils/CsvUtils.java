@@ -10,7 +10,7 @@ public class CsvUtils {
     private static final Logger logger = Logger.getLogger(CsvUtils.class.getName());
    private static final String CSV_FILE_PATH = System.getProperty("user.dir") + File.separator + "src" + File.separator +
            "test" + File.separator + "java" + File.separator +
-           "UpdateDate" + File.separator ;
+           "updateDate" + File.separator ;
 
     public static String csvUpdate(String csvUpdate, int rowIndex, String newDueDate) {
 

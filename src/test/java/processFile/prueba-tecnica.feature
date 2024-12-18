@@ -4,13 +4,13 @@ Feature: procesar archivos de recaudo
     # La clase S3Util se encuentra en un gestor de librerías externo al proyecto
     # Imaginemos que esta clase contiene la configuración y conexión de un cliente AWS, además los métodos para subir archivos a buckets S3
     # También contiene un método para verificar si un archivo se encuentra dentro de un folder
-   # * def S3Manager = Java.type('co.cobre.lib.qa.aws.S3Util')
-    #* def S3ManagerInstance = new S3Manager()
-  #  * def SQSManager = karate.callSingle('../acceptance/test/instances-sqs.js')
-  #  * def waitTime = function(seconds) { java.lang.Thread.sleep(seconds * 1000) }
+    * def S3Manager = Java.type('co.cobre.lib.qa.aws.S3Util')
+    * def S3ManagerInstance = new S3Manager()
+    * def SQSManager = karate.callSingle('../acceptance/test/instances-sqs.js')
+    * def waitTime = function(seconds) { java.lang.Thread.sleep(seconds * 1000) }
     # La clase FileUtils se encuentra en un gestor de librerías externo al proyecto
     # Imaginemos que esta clase contiene métodos para tomar un archivo, renombrarlo y copiarlo en otra ruta
-    #* def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
+    * def FileUtils = Java.type('co.cobre.lib.qa.util.FileUtils')
 
     # Variables globales
     * def bucketName = 'test-automation-qa'

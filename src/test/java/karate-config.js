@@ -25,7 +25,6 @@ function fn() {
 
   karate.configure('retry', { count: 3, interval: 3000 });
 
-  //karate.log("Configuraciones globales cargadas:", config);
 
   return config;
 }
