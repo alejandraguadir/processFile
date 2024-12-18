@@ -26,7 +26,8 @@ pipeline {
             steps {
                 script {
                     // Ejecutar las pruebas con Karate DSL
-                    sh 'mvn test -Dtest=karate'
+                    sh 'mvn test -Dtest=GeneralRunner
+ '
                 }
             }
         }
