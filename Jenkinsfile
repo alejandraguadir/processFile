@@ -7,12 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/alejandraguadir/processFile.git'
-            }
-        }
-
         stage('Build') {
             steps {
                 script {
